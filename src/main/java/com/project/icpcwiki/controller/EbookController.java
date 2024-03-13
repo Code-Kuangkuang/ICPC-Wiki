@@ -1,6 +1,5 @@
 package com.project.icpcwiki.controller;
 
-import com.project.icpcwiki.pojo.Ebook;
 import com.project.icpcwiki.req.EbookReq;
 import com.project.icpcwiki.resp.CommonResp;
 import com.project.icpcwiki.resp.EbookResp;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-
 @RestController
 @RequestMapping("/ebook")
 public class EbookController {
@@ -21,7 +19,7 @@ public class EbookController {
     private EbookService ebookService;
 
     @GetMapping("/list")
-    public CommonResp list(EbookReq req) {
+    public CommonResp<List<EbookResp>> list(EbookReq req) {
         CommonResp<List<EbookResp>> resp = new CommonResp<>();
         List<EbookResp> list = ebookService.list(req);
         resp.setContent(list);
