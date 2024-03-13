@@ -10,6 +10,7 @@ import com.project.icpcwiki.service.EbookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -20,7 +21,7 @@ public class EbookController {
     private EbookService ebookService;
 
     @GetMapping("/list")
-    public CommonResp<PageResp<EbookResp>> list(EbookQueryReq req) {
+    public CommonResp<PageResp<EbookResp>> list(@Valid EbookQueryReq req) {
         CommonResp<PageResp<EbookResp>> resp = new CommonResp<>();
         PageResp<EbookResp> list = ebookService.list(req);
         resp.setContent(list);
@@ -28,9 +29,16 @@ public class EbookController {
     }
 
     @PostMapping("/save")
-    public CommonResp save(@RequestBody EbookSaveReq req) {
+    public CommonResp save(@Valid @RequestBody EbookSaveReq req) {
         CommonResp resp = new CommonResp<>();
         ebookService.save(req);
+        return resp;
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public CommonResp delete(@PathVariable Long id) {
+        CommonResp resp = new CommonResp<>();
+        ebookService.delete(id);
         return resp;
     }
 
