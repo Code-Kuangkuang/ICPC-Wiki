@@ -10,6 +10,7 @@ import com.project.icpcwiki.req.EbookSaveReq;
 import com.project.icpcwiki.resp.EbookResp;
 import com.project.icpcwiki.resp.PageResp;
 import com.project.icpcwiki.util.CopyUtil;
+import com.project.icpcwiki.util.SnowFlake;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @Service
@@ -26,6 +28,10 @@ public class EbookService {
 
     @Autowired
     private EbookMapper ebookMapper;
+
+    @Resource
+    private SnowFlake snowFlake;
+
 
     public PageResp<EbookResp> list(EbookQueryReq req) {
         EbookExample ebookExample = new EbookExample();
@@ -55,10 +61,12 @@ public class EbookService {
     public void save(EbookSaveReq req) {
         Ebook ebook = CopyUtil.copy(req, Ebook.class);
         if (ObjectUtils.isEmpty(req.getId())) {
+            ebook.setId(snowFlake.nextId());
             ebookMapper.insert(ebook);
         } else {
             ebookMapper.updateByPrimaryKey(ebook);
         }
     }
+
 
 }
