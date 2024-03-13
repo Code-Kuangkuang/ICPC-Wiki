@@ -43,7 +43,8 @@
           </a-sub-menu>
         </a-menu>
     </a-layout-sider>
-    <a-layout-content
+    <a-layout style="padding: 0 24px 24px">
+      <a-layout-content
           :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
     >
       <a-list item-layout="vertical" size="large" :grid="{ gutter: 20, column: 3}" :data-source="ebooks">
@@ -65,6 +66,7 @@
         </template>
       </a-list>
     </a-layout-content>
+    </a-layout>
   </a-layout>
 </template>
 
@@ -124,6 +126,10 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.ant-row-rtl #components-layout-demo-top-side-2 .logo {
+  float: right;
+  margin: 16px 0 16px 24px;
+}
 .ant-avatar {
   width: 50px;
   height: 50px;

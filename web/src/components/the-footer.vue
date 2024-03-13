@@ -1,6 +1,6 @@
 <template>
     <a-layout-footer style="text-align: center">
-      Ant Design111 ©2018 Created by Ant UED
+      WIKI知识库
     </a-layout-footer>
 </template>
 
