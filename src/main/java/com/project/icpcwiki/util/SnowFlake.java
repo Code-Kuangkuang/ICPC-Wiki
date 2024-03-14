@@ -15,7 +15,7 @@ public class SnowFlake {
     /**
      * 起始的时间戳
      */
-    private final static long START_STMP = 1704067200000L; // 2024-01-01 00:00:00
+    private final static long START_STMP = 1709251200000L; // 2024-03-01 00:00:00
 
     /**
      * 每一部分占用的位数
@@ -105,7 +105,7 @@ public class SnowFlake {
 //         System.out.println(System.currentTimeMillis());
 //         System.out.println(new Date().getTime());
 //
-//         String dateTime = "2024-01-01 08:00:00";
+//         String dateTime = "2024-03-01 08:00:00";
 //         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 //         System.out.println(sdf.parse(dateTime).getTime());
 

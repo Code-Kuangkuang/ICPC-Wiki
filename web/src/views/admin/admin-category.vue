@@ -23,7 +23,7 @@
       <a-table
         :columns="columns"
         :row-key="record => record.id"
-        :data-source="ebooks"
+        :data-source="categorys"
         :pagination="pagination"
         :loading="loading"
         @change="handleTableChange"
@@ -53,26 +53,20 @@
   </a-layout>
 
   <a-modal
-    title="电子书表单"
+    title="分类表单"
     v-model:visible="modalVisible"
     :confirm-loading="modalLoading"
     @ok="handleModalOk"
   >
-    <a-form :model="ebook" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
-      <a-form-item label="封面">
-        <a-input v-model:value="ebook.cover"/>
-      </a-form-item>
+    <a-form :model="category" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
       <a-form-item label="名称">
-        <a-input v-model:value="ebook.name"/>
+        <a-input v-model:value="category.name"/>
       </a-form-item>
-      <a-form-item label="分类一">
-        <a-input v-model:value="ebook.category1Id"/>
+      <a-form-item label="父分类">
+        <a-input v-model:value="category.parent"/>
       </a-form-item>
-      <a-form-item label="分类二">
-        <a-input v-model:value="ebook.category2Id"/>
-      </a-form-item>
-      <a-form-item label="描述">
-        <a-input v-model:value="ebook.description" type="textarea"/>
+      <a-form-item label="顺序">
+        <a-input v-model:value="category.sort"/>
       </a-form-item>
     </a-form>
   </a-modal>
@@ -86,11 +80,11 @@
   import {Tool} from "@/util/tool";
   
   export default defineComponent({
-    name: 'AdminEbook',
+    name: 'AdminCategory',
     setup() {
       const param = ref();
       param.value = {};
-      const ebooks = ref();
+      const categorys = ref();
       const pagination = ref({
         current: 1,
         pageSize: 10,
@@ -99,33 +93,16 @@
       const loading = ref(false);
       const columns = [
         {
-          title: '封面',
-          dataIndex: 'cover',
-          slots: { customRender: 'cover' }
-        },
-        {
           title: '名称',
           dataIndex: 'name'
         },
         {
-          title: '分类一',
-          dataIndex: 'category1Id'
+          title: '父分类',
+          dataIndex: 'parent'
         },
         {
-          title: '分类二',
-          dataIndex: 'category2Id'
-        },
-        {
-          title: '文档数',
-          dataIndex: 'docCount'
-        },
-        {
-          title: '阅读数',
-          dataIndex: 'viewCount'
-        },
-        {
-          title: '点赞数',
-          dataIndex: 'voteCount'
+          title: '顺序',
+          dataIndex: 'sort'
         },
         {
           title: 'Action',
@@ -138,7 +115,7 @@
        */
       const handleQuery = (params: any) => {
         loading.value = true;
-        axios.get("/ebook/list", {
+        axios.get("/category/list", {
           params: {
             page: params.page,
             size: params.size,
@@ -148,7 +125,7 @@
           loading.value = false;
           const data = response.data;
           if (data.success) {
-            ebooks.value = data.content.list;
+            categorys.value = data.content.list;
             //重置分页按钮
             pagination.value.current = params.page;
             pagination.value.total = data.content.total;
@@ -170,12 +147,12 @@
 
 
       //--------表单--------
-      const ebook = ref({});
+      const category = ref({});
       const modalVisible = ref(false);
       const modalLoading = ref(false);
       const handleModalOk = () => {
         modalLoading.value = true;
-        axios.post("/ebook/save", ebook.value).then((response) => {
+        axios.post("/category/save", category.value).then((response) => {
           modalLoading.value = false;
           const data = response.data;
           if (data.success) {
@@ -196,7 +173,7 @@
        * 删除
        */
        const handleDelete = (id: number) => {
-        axios.delete("/ebook/delete/" + id).then((response) => {
+        axios.delete("/category/delete/" + id).then((response) => {
           const data = response.data; //data = CommonResp
           if (data.success){
             message.success('删除成功！');
@@ -214,7 +191,7 @@
        */
       const edit = (record: any) => {
         modalVisible.value = true;
-        ebook.value = Tool.copy(record);
+        category.value = Tool.copy(record);
       };
 
       /**
@@ -222,7 +199,7 @@
        */
        const add = () => {
         modalVisible.value = true;
-        ebook.value = {};
+        category.value = {};
        };
       
       onMounted(() => {
@@ -234,14 +211,14 @@
 
       return {
         param,
-        ebooks,
+        categorys,
         pagination,
         columns,
         loading,
         handleTableChange,
         edit,
         add,
-        ebook,
+        category,
         handleDelete,
         modalVisible,
         modalLoading,

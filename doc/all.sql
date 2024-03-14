@@ -37,3 +37,30 @@ insert into`ebook`(id, name, description) values(3, '栈', '基本数据结构�
 insert into`ebook`(id, name, description) values(4, '队列', '基本数据结构——队列');
 insert into`ebook`(id, name, description) values(5,'链表','基本数据结构——链表');
 insert into`ebook`(id, name, description) values(6,'字符串匹配','字符串基础');
+
+
+# 分类
+drop table if exists `category`;
+create table `category` (
+                            `id` bigint not null comment 'id',
+                            `parent` bigint not null default 0 comment '父id',
+                            `name` varchar(50) not null comment '名称',
+                            `sort` int comment '顺序',
+                            primary key (`id`)
+) engine=innodb default charset=utf8mb4 comment='分类';
+
+insert into `category` (id, parent, name, sort) values (100, 000, '基础算法', 100);
+insert into `category` (id, parent, name, sort) values (101, 100, '复杂度', 101);
+insert into `category` (id, parent, name, sort) values (102, 100, '枚举', 102);
+insert into `category` (id, parent, name, sort) values (200, 000, '搜索', 200);
+insert into `category` (id, parent, name, sort) values (201, 200, 'DFS（搜索）', 201);
+insert into `category` (id, parent, name, sort) values (202, 200, 'BFS（搜索）', 202);
+insert into `category` (id, parent, name, sort) values (300, 000, '动态规划', 300);
+insert into `category` (id, parent, name, sort) values (301, 300, '线性DP', 301);
+insert into `category` (id, parent, name, sort) values (302, 300, '背包DP', 302);
+insert into `category` (id, parent, name, sort) values (400, 000, '字符串', 400);
+insert into `category` (id, parent, name, sort) values (401, 400, '字符串哈希', 401);
+insert into `category` (id, parent, name, sort) values (500, 000, '数据结构', 500);
+insert into `category` (id, parent, name, sort) values (501, 500, '栈', 501);
+insert into `category` (id, parent, name, sort) values (502, 500, '队列', 502);
+insert into `category` (id, parent, name, sort) values (503, 500, '并查集', 503);
